@@ -1,8 +1,8 @@
-let teeworlds = require('teeworlds'); // Should do npm i teeworlds / npm i axios
-let axios = require('axios'); // Import axios for HTTP requests
+let teeworlds = require('teeworlds'); // npm i teeworlds
+let axios = require('axios'); // npm i axios
 
-const ans = '172.233.16.217:8304';
-const webhookURL = "replace with you weebhook";
+const ans = '172.233.24.214:8308';
+const webhookURL = "your webhook";
 
 const [ip, port] = ans.split(':');
 let client = new teeworlds.Client(ip, Number.parseInt(port), "Utility_Bot", {
@@ -34,12 +34,12 @@ client.on("message", (msg) => {
     const messageContent = msg.message.toLowerCase();
 
     console.log(playerName, msg.message);
-    sendToWebhook(msg.author.ClientInfo?.name || "server", msg.message);
+    sendToWebhook(playerName, msg.message);
 
     // Respond only to messages that start with '.'
     if (messageContent.startsWith('.')) {
         if (messageContent === ".help") {
-            client.game.Say(`${playerName}: Commands: .help, .myskin, .say, .team (number), .invite, .ping, .users, .map, .kermit`);
+            client.game.Say(`${playerName}: Commands: .source, .help, .myskin, .say, .team (number), .invite, .ping, .users, .map, .kermit`);
         } else if (messageContent === ".myskin") {
             client.game.Say(`${playerName}: Your skin: ${msg.author.ClientInfo?.skin}`);
         } else if (messageContent.startsWith(".say ")) {
@@ -53,6 +53,9 @@ client.on("message", (msg) => {
             } else {
                 client.game.Say(`${playerName}: Please specify a team number.`);
             }
+        } else if (messageContent === ".source") {
+            console.log("Source command triggered");
+            client.game.Say("This project source is located at 'https://github.com/vitorblue007/DDnet-chatbot'");
         } else if (messageContent === ".kermit") {
             client.game.Kill();
         } else if (messageContent.startsWith(".invite")) {
@@ -119,7 +122,7 @@ process.on("SIGINT", () => {
 function sendToWebhook(author, message) {
     axios.post(webhookURL, {
         username: author,
-        content: "`"+message+"`",  // Send the actual message and adds a ` to not let mentions
+        content: "`" + message + "`",  // Send the actual message and adds a ` to prevent mentions
     })
     .then(response => {
         console.log('Message sent to webhook:', response.status);
