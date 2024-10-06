@@ -2,7 +2,7 @@ let teeworlds = require('teeworlds'); // Should do npm i teeworlds / npm i axios
 let axios = require('axios'); // Import axios for HTTP requests
 
 const ans = '172.233.16.217:8304';
-const webhookURL = "https://discord.com/api/webhooks/1292242125815152731/K7mnnrGH7qxbeqeSGurGdib54-YhlbDFAVbV1VJZbLshWozMaePinVZ9JpcTqjvbazIt";
+const webhookURL = "replace with you weebhook";
 
 const [ip, port] = ans.split(':');
 let client = new teeworlds.Client(ip, Number.parseInt(port), "Utility_Bot", {
